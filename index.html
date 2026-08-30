@@ -1,429 +1,832 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wishcraft Designs | Birthday Card Generator</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+<title>Wishcraft Designs | Birthday Magic</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    min-height:100vh;
+    color:#34243d;
+    background:
+        radial-gradient(circle at 10% 10%, #ffe0f0 0, transparent 30%),
+        radial-gradient(circle at 90% 20%, #e7ddff 0, transparent 30%),
+        linear-gradient(135deg,#fff7fb,#f8f3ff,#eef9ff);
+    overflow-x:hidden;
+}
+
+/* Floating decorations */
+
+.floating{
+    position:fixed;
+    font-size:25px;
+    pointer-events:none;
+    animation:float 6s ease-in-out infinite;
+    z-index:0;
+    opacity:.7;
+}
+
+.f1{top:10%;left:5%;}
+.f2{top:20%;right:7%;animation-delay:1s;}
+.f3{top:55%;left:4%;animation-delay:2s;}
+.f4{top:70%;right:5%;animation-delay:3s;}
+.f5{top:38%;left:92%;animation-delay:1.5s;}
+
+@keyframes float{
+    0%,100%{transform:translateY(0) rotate(0deg);}
+    50%{transform:translateY(-18px) rotate(8deg);}
+}
+
+/* Main */
+
+.container{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:850px;
+    margin:auto;
+    padding:25px 16px 50px;
+}
+
+header{
+    text-align:center;
+    padding:35px 10px 25px;
+}
+
+.logo{
+    font-size:clamp(2.4rem,8vw,4.5rem);
+    font-weight:900;
+    background:linear-gradient(90deg,#ec4899,#8b5cf6,#6366f1);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    animation:logoGlow 3s ease-in-out infinite;
+}
+
+@keyframes logoGlow{
+    0%,100%{filter:drop-shadow(0 0 2px rgba(236,72,153,.2));}
+    50%{filter:drop-shadow(0 0 15px rgba(139,92,246,.35));}
+}
+
+.subtitle{
+    margin-top:10px;
+    color:#75687d;
+    font-size:1.05rem;
+}
+
+.badge{
+    display:inline-block;
+    margin-top:18px;
+    padding:8px 16px;
+    border-radius:50px;
+    background:white;
+    box-shadow:0 7px 25px rgba(100,70,130,.12);
+    font-size:.9rem;
+}
+
+/* Glass sections */
+
+.section{
+    background:rgba(255,255,255,.82);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,.9);
+    border-radius:30px;
+    padding:30px;
+    margin-top:20px;
+    box-shadow:0 20px 60px rgba(100,70,130,.13);
+}
+
+.section-title{
+    text-align:center;
+    font-size:1.6rem;
+    margin-bottom:22px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin:16px 0 8px;
+}
+
+input,select{
+    width:100%;
+    border:2px solid #eee5f5;
+    border-radius:15px;
+    padding:15px;
+    font-size:1rem;
+    outline:none;
+    background:white;
+    transition:.25s;
+}
+
+input:focus,select:focus{
+    border-color:#c084fc;
+    box-shadow:0 0 0 4px rgba(192,132,252,.12);
+}
+
+/* Cake choices */
+
+.cakes{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.cake-option{
+    border:2px solid #eee5f5;
+    border-radius:18px;
+    padding:15px 8px;
+    background:white;
+    cursor:pointer;
+    text-align:center;
+    transition:.25s;
+}
+
+.cake-option:hover{
+    transform:translateY(-4px);
+}
+
+.cake-option.selected{
+    border-color:#c084fc;
+    background:#faf5ff;
+    box-shadow:0 8px 20px rgba(139,92,246,.15);
+}
+
+.cake-icon{
+    font-size:3rem;
+    display:block;
+    margin-bottom:6px;
+}
+
+/* Button */
+
+.primary-btn{
+    width:100%;
+    margin-top:25px;
+    border:none;
+    border-radius:16px;
+    padding:17px;
+    color:white;
+    font-size:1.05rem;
+    font-weight:bold;
+    cursor:pointer;
+    background:linear-gradient(90deg,#ec4899,#8b5cf6,#6366f1);
+    box-shadow:0 12px 30px rgba(139,92,246,.28);
+    transition:.25s;
+}
+
+.primary-btn:hover{
+    transform:translateY(-3px);
+    box-shadow:0 17px 35px rgba(139,92,246,.35);
+}
+
+.primary-btn:active{
+    transform:scale(.98);
+}
+
+/* Birthday result */
+
+#birthdayExperience{
+    display:none;
+}
+
+#birthdayExperience.show{
+    display:block;
+    animation:appear .8s ease;
+}
+
+@keyframes appear{
+    from{
+        opacity:0;
+        transform:translateY(30px) scale(.96);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0) scale(1);
+    }
+}
+
+/* Wish */
+
+.wish-box{
+    text-align:center;
+    padding:35px 20px;
+    border-radius:25px;
+    background:linear-gradient(145deg,#fff,#fff5fa);
+    border:1px solid #f7d9eb;
+}
+
+.big-cake{
+    font-size:6rem;
+    animation:cakeBounce 2s infinite;
+}
+
+@keyframes cakeBounce{
+    0%,100%{transform:translateY(0);}
+    50%{transform:translateY(-12px);}
+}
+
+.wish-box h2{
+    color:#ec4899;
+    font-size:clamp(1.7rem,6vw,2.5rem);
+    margin:15px 0;
+}
+
+.friend-name{
+    color:#8b5cf6;
+}
+
+.wish-text{
+    color:#5f5367;
+    line-height:1.8;
+    font-size:1.1rem;
+    max-width:650px;
+    margin:auto;
+}
+
+/* Candles */
+
+.candles{
+    margin:10px auto 0;
+    font-size:2rem;
+    animation:flicker .8s infinite alternate;
+}
+
+@keyframes flicker{
+    from{transform:scale(1);}
+    to{transform:scale(1.08);}
+}
+
+/* Surprise */
+
+.surprise{
+    text-align:center;
+    margin-top:25px;
+}
+
+.surprise-btn{
+    border:none;
+    padding:14px 25px;
+    border-radius:50px;
+    background:#34243d;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.25s;
+}
+
+.surprise-btn:hover{
+    transform:translateY(-2px);
+}
+
+.hidden-message{
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    border-radius:20px;
+    background:#fff0f7;
+    color:#6d4260;
+    line-height:1.7;
+}
+
+.hidden-message.show{
+    display:block;
+    animation:appear .6s ease;
+}
+
+/* Video */
+
+.video-box{
+    margin-top:25px;
+    text-align:center;
+}
+
+.video-box video{
+    width:100%;
+    max-height:400px;
+    border-radius:22px;
+    background:#eee;
+    box-shadow:0 12px 30px rgba(70,50,90,.15);
+}
+
+.video-note{
+    margin-top:10px;
+    color:#837688;
+    font-size:.85rem;
+}
+
+/* Actions */
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+    margin-top:20px;
+}
+
+.action-btn{
+    border:none;
+    padding:14px;
+    border-radius:14px;
+    cursor:pointer;
+    font-weight:bold;
+    background:white;
+    color:#34243d;
+    border:2px solid #eee5f5;
+    transition:.2s;
+}
+
+.action-btn:hover{
+    transform:translateY(-2px);
+}
+
+/* Confetti */
+
+.confetti-container{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:100;
+}
+
+.confetti{
+    position:absolute;
+    top:-20px;
+    width:9px;
+    height:15px;
+    animation:confettiFall 3s linear forwards;
+}
+
+@keyframes confettiFall{
+    0%{
+        transform:translateY(0) rotate(0);
+        opacity:1;
+    }
+    100%{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:0;
+    }
+}
+
+/* Footer */
+
+footer{
+    text-align:center;
+    margin-top:30px;
+    color:#837688;
+    font-size:.9rem;
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+    .container{
+        padding:12px 12px 35px;
     }
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      min-height: 100vh;
-      background: linear-gradient(135deg, #fff0f6, #f3e8ff, #e0f2fe);
-      color: #25233a;
-      padding: 20px;
-      overflow-x: hidden;
+    header{
+        padding-top:25px;
     }
 
-    .container {
-      width: 100%;
-      max-width: 700px;
-      margin: 0 auto;
-      text-align: center;
+    .section{
+        padding:20px 16px;
+        border-radius:23px;
     }
 
-    .logo {
-      font-size: 2.4rem;
-      font-weight: 800;
-      margin-top: 25px;
-      margin-bottom: 8px;
-      background: linear-gradient(90deg, #ec4899, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+    .cakes{
+        grid-template-columns:1fr 1fr 1fr;
+        gap:7px;
     }
 
-    .tagline {
-      color: #6b6478;
-      margin-bottom: 30px;
-      font-size: 1rem;
+    .cake-option{
+        padding:11px 4px;
+        font-size:.78rem;
     }
 
-    .form-box {
-      background: rgba(255, 255, 255, 0.88);
-      padding: 28px;
-      border-radius: 24px;
-      box-shadow: 0 15px 45px rgba(100, 70, 130, 0.15);
-      backdrop-filter: blur(10px);
+    .cake-icon{
+        font-size:2.3rem;
     }
 
-    label {
-      display: block;
-      text-align: left;
-      font-weight: 700;
-      margin: 14px 0 8px;
+    .big-cake{
+        font-size:4.5rem;
     }
 
-    input,
-    select {
-      width: 100%;
-      padding: 15px;
-      border: 2px solid #eee5f5;
-      border-radius: 13px;
-      font-size: 1rem;
-      outline: none;
-      background: white;
-      transition: 0.25s;
+    .wish-text{
+        font-size:1rem;
     }
 
-    input:focus,
-    select:focus {
-      border-color: #c084fc;
-      box-shadow: 0 0 0 4px rgba(192, 132, 252, 0.12);
+    .actions{
+        grid-template-columns:1fr;
     }
 
-    .generate-btn {
-      width: 100%;
-      margin-top: 22px;
-      padding: 16px;
-      border: none;
-      border-radius: 14px;
-      color: white;
-      font-size: 1.05rem;
-      font-weight: 700;
-      cursor: pointer;
-      background: linear-gradient(90deg, #ec4899, #8b5cf6);
-      box-shadow: 0 10px 25px rgba(139, 92, 246, 0.25);
-      transition: transform 0.2s, box-shadow 0.2s;
+    .floating{
+        font-size:18px;
     }
-
-    .generate-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 14px 30px rgba(139, 92, 246, 0.3);
-    }
-
-    .generate-btn:active {
-      transform: scale(0.98);
-    }
-
-    /* Birthday Card */
-    .card-wrapper {
-      display: none;
-      margin-top: 30px;
-      position: relative;
-    }
-
-    .card-wrapper.show {
-      display: block;
-      animation: cardAppear 0.8s ease forwards;
-    }
-
-    .birthday-card {
-      position: relative;
-      overflow: hidden;
-      padding: 42px 25px;
-      border-radius: 28px;
-      background: linear-gradient(145deg, #ffffff, #fff7fb);
-      box-shadow: 0 18px 50px rgba(100, 70, 130, 0.2);
-      border: 1px solid rgba(255,255,255,0.8);
-    }
-
-    .cake {
-      font-size: 4rem;
-      animation: bounce 1.8s infinite;
-      margin-bottom: 10px;
-    }
-
-    .birthday-card h2 {
-      color: #ec4899;
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-
-    .birthday-card p {
-      font-size: 1.15rem;
-      line-height: 1.7;
-      color: #514b61;
-    }
-
-    .name {
-      color: #8b5cf6;
-      font-weight: 800;
-    }
-
-    .share-btn {
-      margin-top: 20px;
-      padding: 13px 24px;
-      border: none;
-      border-radius: 12px;
-      background: #25233a;
-      color: white;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.2s;
-    }
-
-    .share-btn:hover {
-      transform: translateY(-2px);
-      opacity: 0.9;
-    }
-
-    .footer {
-      margin: 30px 0 10px;
-      color: #777083;
-      font-size: 0.9rem;
-    }
-
-    /* Confetti */
-    .confetti {
-      position: absolute;
-      width: 9px;
-      height: 15px;
-      top: -20px;
-      animation: fall 2.8s linear infinite;
-      opacity: 0;
-    }
-
-    .confetti:nth-child(1) { left: 5%; animation-delay: 0.1s; }
-    .confetti:nth-child(2) { left: 15%; animation-delay: 0.5s; }
-    .confetti:nth-child(3) { left: 25%; animation-delay: 0.2s; }
-    .confetti:nth-child(4) { left: 35%; animation-delay: 0.8s; }
-    .confetti:nth-child(5) { left: 45%; animation-delay: 0.3s; }
-    .confetti:nth-child(6) { left: 55%; animation-delay: 0.7s; }
-    .confetti:nth-child(7) { left: 65%; animation-delay: 0.4s; }
-    .confetti:nth-child(8) { left: 75%; animation-delay: 1s; }
-    .confetti:nth-child(9) { left: 85%; animation-delay: 0.6s; }
-    .confetti:nth-child(10) { left: 95%; animation-delay: 0.9s; }
-
-    @keyframes fall {
-      0% {
-        transform: translateY(0) rotate(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(450px) rotate(720deg);
-        opacity: 0;
-      }
-    }
-
-    @keyframes cardAppear {
-      0% {
-        opacity: 0;
-        transform: translateY(35px) scale(0.94);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes bounce {
-      0%, 100% {
-        transform: translateY(0);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    @media (max-width: 600px) {
-      body {
-        padding: 14px;
-      }
-
-      .logo {
-        font-size: 2rem;
-        margin-top: 15px;
-      }
-
-      .form-box {
-        padding: 21px;
-        border-radius: 20px;
-      }
-
-      .birthday-card {
-        padding: 35px 18px;
-      }
-
-      .birthday-card h2 {
-        font-size: 1.65rem;
-      }
-
-      .birthday-card p {
-        font-size: 1rem;
-      }
-
-      .cake {
-        font-size: 3.4rem;
-      }
-    }
-  </style>
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="floating f1">✨</div>
+<div class="floating f2">🎈</div>
+<div class="floating f3">🌸</div>
+<div class="floating f4">🎉</div>
+<div class="floating f5">💖</div>
 
-    <h1 class="logo">Wishcraft ✨</h1>
-    <p class="tagline">Create a beautiful birthday wish in seconds 🎂</p>
+<div class="confetti-container" id="confettiContainer"></div>
 
-    <div class="form-box">
+<div class="container">
 
-      <label for="friendName">Friend's Name</label>
-      <input
+<header>
+    <div class="logo">Wishcraft ✨</div>
+    <p class="subtitle">Turn a birthday wish into a little celebration.</p>
+    <div class="badge">💌 Made with love by Wishcraft Designs</div>
+</header>
+
+<!-- Creation section -->
+
+<div class="section">
+
+    <h2 class="section-title">🎁 Create a Birthday Surprise</h2>
+
+    <label for="name">Who is celebrating?</label>
+
+    <input
+        id="name"
         type="text"
-        id="friendName"
-        placeholder="Enter your friend's name"
         maxlength="40"
-      >
+        placeholder="Enter their name..."
+    >
 
-      <label for="message">Choose a Birthday Message</label>
+    <label for="wish">Choose a beautiful wish</label>
 
-      <select id="message">
-        <option value="Wishing you a day filled with happiness, laughter, and beautiful memories! 🎉">
-          Wishing you a day filled with happiness! 🎉
+    <select id="wish">
+
+        <option value="May your special day be filled with happiness, laughter, love, and beautiful memories that stay with you forever. Keep smiling and enjoy every magical moment! 💖">
+            Happiness & Love 💖
         </option>
 
-        <option value="May your birthday be as wonderful and special as you are. Have an amazing day! 💖">
-          May your birthday be wonderful and special! 💖
+        <option value="May this new year of your life bring you exciting adventures, wonderful opportunities, and countless reasons to smile. Wishing you the very best! ✨">
+            New Adventures ✨
         </option>
 
-        <option value="Another year, another reason to celebrate! Wishing you lots of happiness and success! 🥳">
-          Another year, another reason to celebrate! 🥳
+        <option value="Today is all about celebrating YOU! May your birthday be bright, joyful, peaceful, and filled with the people and moments that make you happiest. 🎉">
+            Celebrate You 🎉
         </option>
 
-        <option value="Hope your special day is full of smiles, fun, love, and unforgettable moments! 🎂">
-          Hope your special day is full of smiles and fun! 🎂
+        <option value="Sending you warm birthday wishes and lots of positive energy. May every new day bring something beautiful into your life. Stay happy and keep shining! 🌸">
+            Keep Shining 🌸
         </option>
 
-        <option value="Sending you lots of warm wishes on your birthday. Keep smiling and enjoy your special day! 🌸">
-          Sending you lots of warm birthday wishes! 🌸
-        </option>
-      </select>
+    </select>
 
-      <button class="generate-btn" onclick="generateCard()">
-        ✨ Generate Birthday Card
-      </button>
+    <label>Choose a cake 🎂</label>
+
+    <div class="cakes">
+
+        <div class="cake-option selected" onclick="chooseCake(this,'🎂')">
+            <span class="cake-icon">🎂</span>
+            Classic
+        </div>
+
+        <div class="cake-option" onclick="chooseCake(this,'🧁')">
+            <span class="cake-icon">🧁</span>
+            Cupcake
+        </div>
+
+        <div class="cake-option" onclick="chooseCake(this,'🍰')">
+            <span class="cake-icon">🍰</span>
+            Sweet Cake
+        </div>
 
     </div>
 
-    <!-- Hidden Card -->
-    <div class="card-wrapper" id="cardWrapper">
+    <button class="primary-btn" onclick="createBirthday()">
+        ✨ Create Their Birthday Wish
+    </button>
 
-      <!-- Pure CSS Confetti -->
-      <span class="confetti">🎊</span>
-      <span class="confetti">🎉</span>
-      <span class="confetti">✨</span>
-      <span class="confetti">🎈</span>
-      <span class="confetti">🎊</span>
-      <span class="confetti">✨</span>
-      <span class="confetti">🎉</span>
-      <span class="confetti">🎈</span>
-      <span class="confetti">✨</span>
-      <span class="confetti">🎊</span>
+</div>
 
-      <div class="birthday-card">
+<!-- Birthday experience -->
 
-        <div class="cake">🎂</div>
+<div class="section" id="birthdayExperience">
 
-        <h2>Happy Birthday, <span class="name" id="cardName"></span>! 🎉</h2>
+    <div class="wish-box">
 
-        <p id="cardMessage"></p>
+        <div class="big-cake" id="bigCake">🎂</div>
 
-        <button class="share-btn" onclick="shareCard()">
-          🔗 Share Birthday Card
+        <div class="candles">🕯️ 🕯️ 🕯️</div>
+
+        <h2>
+            Happy Birthday,
+            <span class="friend-name" id="friendName"></span>! 🎉
+        </h2>
+
+        <p class="wish-text" id="wishText"></p>
+
+    </div>
+
+    <!-- Surprise -->
+
+    <div class="surprise">
+
+        <button class="surprise-btn" onclick="openSurprise()">
+            🎁 Open Your Surprise
         </button>
 
-      </div>
+        <div class="hidden-message" id="surpriseMessage">
+            ✨ Here's your little Wishcraft surprise! ✨<br><br>
+            May your days be filled with beautiful moments,
+            genuine smiles, wonderful memories and lots of reasons
+            to celebrate. Keep shining! 💖
+        </div>
 
     </div>
 
-    <p class="footer">
-      Made with 💖 by Wishcraft Designs
-    </p>
+    <!-- Music -->
 
-  </div>
+    <div class="section" style="margin-top:25px;">
 
+        <h2 class="section-title">🎵 Birthday Music</h2>
 
-  <script>
+        <p style="text-align:center;color:#75687d;margin-bottom:15px;">
+            Tap the button to play your birthday music.
+        </p>
 
-    function generateCard() {
+        <audio id="birthdayMusic" loop>
+            <source src="birthday.mp3" type="audio/mpeg">
+        </audio>
 
-      const nameInput = document.getElementById("friendName");
-      const messageInput = document.getElementById("message");
+        <button class="primary-btn" onclick="toggleMusic()" id="musicButton">
+            🎵 Play Birthday Music
+        </button>
 
-      const name = nameInput.value.trim();
-      const message = messageInput.value;
+    </div>
 
-      if (name === "") {
-        alert("Please enter your friend's name first! 😊");
+    <!-- Video -->
+
+    <div class="section">
+
+        <h2 class="section-title">🎬 A Little Birthday Video</h2>
+
+        <div class="video-box">
+
+            <video controls playsinline poster="">
+                <source src="birthday-video.mp4" type="video/mp4">
+                Your browser does not support video playback.
+            </video>
+
+            <p class="video-note">
+                Add your own short birthday video as
+                <b>birthday-video.mp4</b> to your GitHub repository.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- Share -->
+
+    <div class="actions">
+
+        <button class="action-btn" onclick="shareWish()">
+            🔗 Share Wish
+        </button>
+
+        <button class="action-btn" onclick="copyLink()">
+            📋 Copy Website Link
+        </button>
+
+    </div>
+
+    <button class="primary-btn" onclick="createAnother()">
+        💌 Create Another Wish
+    </button>
+
+</div>
+
+<footer>
+    © 2026 Wishcraft Designs • Made with 💖
+</footer>
+
+</div>
+
+<script>
+
+let selectedCake = "🎂";
+
+/* Cake selection */
+
+function chooseCake(element,cake){
+
+    document.querySelectorAll(".cake-option").forEach(option=>{
+        option.classList.remove("selected");
+    });
+
+    element.classList.add("selected");
+
+    selectedCake = cake;
+}
+
+/* Create birthday */
+
+function createBirthday(){
+
+    const nameInput = document.getElementById("name");
+    const name = nameInput.value.trim();
+
+    if(!name){
+
+        alert("Please enter the birthday person's name 💖");
         nameInput.focus();
         return;
-      }
+    }
 
-      document.getElementById("cardName").textContent = name;
-      document.getElementById("cardMessage").textContent = message;
+    document.getElementById("friendName").textContent = name;
+    document.getElementById("wishText").textContent =
+        document.getElementById("wish").value;
 
-      const cardWrapper = document.getElementById("cardWrapper");
+    document.getElementById("bigCake").textContent = selectedCake;
 
-      cardWrapper.classList.remove("show");
+    const experience =
+        document.getElementById("birthdayExperience");
 
-      // Restart animation
-      void cardWrapper.offsetWidth;
+    experience.classList.add("show");
 
-      cardWrapper.classList.add("show");
+    createConfetti();
 
-      setTimeout(() => {
-        cardWrapper.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
+    setTimeout(()=>{
+        experience.scrollIntoView({
+            behavior:"smooth",
+            block:"start"
         });
-      }, 150);
+    },200);
+}
+
+/* Surprise */
+
+function openSurprise(){
+
+    const message =
+        document.getElementById("surpriseMessage");
+
+    message.classList.toggle("show");
+
+    createConfetti();
+}
+
+/* Music */
+
+function toggleMusic(){
+
+    const music =
+        document.getElementById("birthdayMusic");
+
+    const button =
+        document.getElementById("musicButton");
+
+    if(music.paused){
+
+        music.play()
+        .then(()=>{
+            button.textContent = "🔇 Turn Music Off";
+        })
+        .catch(()=>{
+            alert(
+                "Please upload a file named birthday.mp3 to your GitHub repository first."
+            );
+        });
+
+    }else{
+
+        music.pause();
+
+        button.textContent =
+            "🎵 Play Birthday Music";
+    }
+}
+
+/* Confetti */
+
+function createConfetti(){
+
+    const container =
+        document.getElementById("confettiContainer");
+
+    container.innerHTML = "";
+
+    const symbols =
+        ["🎉","🎊","✨","💖","🌸","⭐","🎈"];
+
+    for(let i=0;i<45;i++){
+
+        const piece =
+            document.createElement("span");
+
+        piece.className = "confetti";
+
+        piece.textContent =
+            symbols[Math.floor(Math.random()*symbols.length)];
+
+        piece.style.left =
+            Math.random()*100 + "vw";
+
+        piece.style.animationDelay =
+            Math.random()*1.5 + "s";
+
+        piece.style.fontSize =
+            (12 + Math.random()*15) + "px";
+
+        container.appendChild(piece);
     }
 
+    setTimeout(()=>{
+        container.innerHTML = "";
+    },4500);
+}
 
-    async function shareCard() {
+/* Share */
 
-      const name = document.getElementById("friendName").value.trim();
+async function shareWish(){
 
-      const shareText =
-        "🎂 I created a birthday wish for " +
-        name +
-        " with Wishcraft! ✨";
+    const name =
+        document.getElementById("name").value.trim();
 
-      if (navigator.share) {
+    const text =
+        "🎂 I created a beautiful birthday wish for " +
+        (name || "you") +
+        " with Wishcraft Designs! ✨";
 
-        try {
+    if(navigator.share){
 
-          await navigator.share({
-            title: "Birthday Wish - Wishcraft",
-            text: shareText,
-            url: window.location.href
-          });
+        try{
 
-        } catch (error) {
-          // User cancelled sharing
-        }
+            await navigator.share({
+                title:"Wishcraft Birthday Wish",
+                text:text,
+                url:window.location.href
+            });
 
-      } else {
+        }catch(error){}
 
-        try {
+    }else{
 
-          await navigator.clipboard.writeText(window.location.href);
+        copyLink();
+    }
+}
 
-          alert(
-            "Website link copied! 🎉\n\nSend it to your friend!"
-          );
+/* Copy */
 
-        } catch (error) {
+async function copyLink(){
 
-          alert(
-            "Copy this website link:\n\n" +
+    try{
+
+        await navigator.clipboard.writeText(
             window.location.href
-          );
+        );
 
-        }
+        alert("Wishcraft website link copied! 🎉");
 
-      }
+    }catch(error){
 
+        alert(
+            "Copy this link:\n\n" +
+            window.location.href
+        );
     }
+}
 
-  </script>
+/* Create another */
+
+function createAnother(){
+
+    document.getElementById("birthdayExperience")
+        .classList.remove("show");
+
+    document.getElementById("name").value = "";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+</script>
 
 </body>
-</html>
+          </html>
