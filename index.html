@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WishCraft — Birthday Wishes & Certificates</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:#fff8fc;color:#302538}
+nav{display:flex;justify-content:space-between;align-items:center;padding:18px 7%;background:#fff;border-bottom:1px solid #f1dfeb;position:sticky;top:0;z-index:5}
+.logo{font-size:24px;font-weight:800;color:#b33d82}.logo span{color:#ff9f43}
+nav a{margin-left:22px;text-decoration:none;color:#513e51;font-weight:600}
+.hero{padding:75px 7%;display:grid;grid-template-columns:1.1fr .9fr;gap:45px;align-items:center;background:linear-gradient(135deg,#fff4fb,#fff8ed)}
+h1{font-size:clamp(40px,6vw,70px);line-height:1.02;margin:0 0 20px}.hero p{font-size:19px;line-height:1.6;color:#665568}
+.btn{display:inline-block;border:0;border-radius:14px;padding:14px 20px;background:#b33d82;color:#fff;font-weight:800;cursor:pointer;text-decoration:none;margin:8px 8px 8px 0}.btn.alt{background:#fff;color:#b33d82;border:1px solid #e9bfd9}
+.card{background:#fff;border:1px solid #f0dce9;border-radius:24px;padding:25px;box-shadow:0 15px 45px #8c4d7314}
+.preview{min-height:310px;display:flex;align-items:center;justify-content:center;text-align:center;background:linear-gradient(145deg,#ffe5f3,#fff0d8);border-radius:18px;padding:30px}
+.preview h2{font-size:38px;margin:10px 0}.preview .name{font-size:48px;font-weight:900;color:#b33d82}.emoji{font-size:60px}
+section{padding:65px 7%}section h2{text-align:center;font-size:36px;margin:0 0 12px}.sub{text-align:center;color:#725f70;margin-bottom:35px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.tile{padding:25px;border-radius:20px;background:#fff;border:1px solid #f0dce9}.tile h3{margin-top:10px}
+.generator{display:grid;grid-template-columns:.8fr 1.2fr;gap:25px}.field{margin-bottom:15px}label{display:block;font-weight:700;margin-bottom:7px}input,textarea,select{width:100%;padding:12px;border:1px solid #ddc7d8;border-radius:11px;font:inherit;background:#fff}textarea{min-height:100px;resize:vertical}
+footer{padding:35px 7%;background:#302538;color:#fff;text-align:center}.small{font-size:13px;color:#d8cbd6}
+@media(max-width:800px){.hero,.generator{grid-template-columns:1fr}.grid{grid-template-columns:1fr}nav{padding:15px 5%}nav div:last-child a{margin-left:10px;font-size:14px}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="logo">Wish<span>Craft</span> ✨</div>
+  <div><a href="#create">Create</a><a href="#features">Features</a><a href="#about">About</a></div>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="small">PERSONALIZED DIGITAL CELEBRATIONS</div>
+    <h1>Make every moment worth remembering.</h1>
+    <p>Create beautiful birthday wishes and certificates in minutes. Personalize the message, preview your design, and download it for sharing.</p>
+    <a class="btn" href="#create">Create a Wish</a>
+    <a class="btn alt" href="#features">Explore Designs</a>
+  </div>
+  <div class="card"><div class="preview">
+    <div><div class="emoji">🎂✨</div><h2>Happy Birthday!</h2><div class="name" id="heroName">Someone Special</div><p id="heroMsg">Wishing you happiness, laughter and wonderful memories.</p></div>
+  </div></div>
+</header>
+
+<section id="features">
+<h2>What you can create</h2><p class="sub">Start with free designs and expand into premium collections.</p>
+<div class="grid">
+  <div class="tile"><div class="emoji">🎂</div><h3>Birthday Wishes</h3><p>Personalized birthday cards for friends, family and special occasions.</p></div>
+  <div class="tile"><div class="emoji">🏆</div><h3>Certificates</h3><p>Clean, printable certificates for appreciation, achievement and participation.</p></div>
+  <div class="tile"><div class="emoji">💌</div><h3>Greeting Cards</h3><p>Beautiful digital messages you can customize and share online.</p></div>
+</div>
+</section>
+
+<section id="create">
+<h2>Birthday Wish Generator</h2><p class="sub">Enter a few details and see your personalized card instantly.</p>
+<div class="generator">
+<div class="card">
+  <div class="field"><label for="name">Recipient name</label><input id="name" placeholder="e.g. Ayesha"></div>
+  <div class="field"><label for="message">Message</label><textarea id="message" placeholder="Write your birthday message..."></textarea></div>
+  <div class="field"><label for="theme">Design</label><select id="theme"><option value="pink">Sweet Pink</option><option value="sunset">Warm Sunset</option><option value="lavender">Lavender Dream</option></select></div>
+  <button class="btn" onclick="downloadCard()">Download Card</button>
+</div>
+<div class="card"><div class="preview" id="card">
+  <div><div class="emoji">🎉🎂</div><h2>Happy Birthday!</h2><div class="name" id="cardName">Your Name</div><p id="cardMessage">May your day be filled with happiness and beautiful memories.</p></div>
+</div></div>
+</div>
+</section>
+
+<section id="about">
+<h2>Built for a future creative business</h2><p class="sub">WishCraft is designed so you can add more templates, premium downloads, customer accounts and secure payments as the business grows.</p>
+</section>
+
+<footer><div class="logo" style="color:#fff">WishCraft ✨</div><p>Personalized wishes. Memorable moments.</p><p class="small">© 2026 WishCraft. Demo website — connect your own domain, hosting and payment provider before accepting customers.</p></footer>
+
+<script>
+const nameEl=document.getElementById('name'), msgEl=document.getElementById('message');
+function update(){
+ const n=nameEl.value.trim()||'Your Name';
+ const m=msgEl.value.trim()||'May your day be filled with happiness and beautiful memories.';
+ document.getElementById('cardName').textContent=n;
+ document.getElementById('cardMessage').textContent=m;
+ document.getElementById('heroName').textContent=n;
+ document.getElementById('heroMsg').textContent=m;
+}
+nameEl.addEventListener('input',update); msgEl.addEventListener('input',update);
+document.getElementById('theme').addEventListener('change',e=>{
+ const c=document.getElementById('card');
+ c.style.background=e.target.value==='sunset'?'linear-gradient(145deg,#ffe0c2,#fff3c9)':e.target.value==='lavender'?'linear-gradient(145deg,#e9dcff,#fce8ff)':'linear-gradient(145deg,#ffe5f3,#fff0d8)';
+});
+function downloadCard(){
+ const card=document.getElementById('card');
+ const w=1000,h=650;
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffe5f3"/><stop offset="1" stop-color="#fff0d8"/></linearGradient></defs><rect width="100%" height="100%" rx="35" fill="url(#g)"/><text x="500" y="180" text-anchor="middle" font-size="80">🎉🎂</text><text x="500" y="290" text-anchor="middle" font-size="55" font-family="Arial" font-weight="700" fill="#302538">Happy Birthday!</text><text x="500" y="370" text-anchor="middle" font-size="62" font-family="Arial" font-weight="800" fill="#b33d82">${escapeXml(document.getElementById('cardName').textContent)}</text><text x="500" y="440" text-anchor="middle" font-size="25" font-family="Arial" fill="#665568">${escapeXml(document.getElementById('cardMessage').textContent).slice(0,100)}</text></svg>`;
+ const blob=new Blob([svg],{type:'image/svg+xml'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='birthday-wish.svg'; a.click(); URL.revokeObjectURL(a.href);
+}
+function escapeXml(s){return s.replace(/[<>&'"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;',"'":'&apos;','"':'&quot;'}[c]));}
+</script>
+</body>
+</html>
